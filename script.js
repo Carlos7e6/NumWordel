@@ -1,3 +1,4 @@
+
 let codigo = [];
 const maxIntento = 8;
 
@@ -18,7 +19,7 @@ function Comprobar(){
 
     
     let random = codigo.join("");
-    console.log("random "+random);
+    console.log("random "+ random);
     let pathNumber = document.getElementById("numero");
     let number = pathNumber.value;
 
@@ -57,7 +58,7 @@ function Comprobar(){
                         }
                         else
                         {
-                            color = "red";
+                            color = "grey";
                             number[i] = "!";
                         
                         }
@@ -66,10 +67,15 @@ function Comprobar(){
 
                 CreateSquare(color,number[i]);
             }
-        }
-        
-        Intentos(number, random, replaceNum);
-        
+        }  
+        Intentos(number, random, replaceNum, contador);  
+    }
+    if(win == true)
+    {
+        for(let i =0; i < number.length; i++)
+        {
+            CreateSquare("green",number[i]);
+        }  
     }
 
     if(number.length > 5 || number.length < 5 || number == "" || ASCII == true){
@@ -97,20 +103,22 @@ function CreateContainer(){
     document.getElementById("Result").appendChild(contenedor);
 }
 
-function Intentos(number, random, replaceNum)
+function Intentos(number, random, replaceNum, contador)
 {
     var inf = document.getElementById("info");
-
-
-    inf.textContent = "Intento numero: " + contador;
-    if(win == true)
+    if(contador == undefined)
+    {
+        inf.textContent = "Bienvenido, pon un numero de 5 caracteres";
+    }
+    else if(win == true)
     {
         let section = document.getElementsByClassName("info");
 
         section[0].style.background = "green";
 
-        inf.textContent = "Enhorabuena, el numero es: " + number;
+        inf.textContent = "Enhorabuena, has acertado el numero!";
 
+        ButtonReload();
         for(let i = 0;i<5;i++)
         {
             if(number[i]==random[i])
@@ -119,6 +127,16 @@ function Intentos(number, random, replaceNum)
             }
         }
     }
+    else if(contador == maxIntento)
+    {
+        inf.textContent = "Lo siento, has agotado el numero de intentos!";
+        ButtonReload();
+    }
+    else
+    {
+        inf.textContent = "Intento numero: " + contador + "/8";
+    }
+
 }
 
 function ComprobarNumASCI(number)
@@ -130,6 +148,31 @@ function ComprobarNumASCI(number)
             ASCII = true;
         }
     }
+}
+
+function ButtonReload()
+{
+    console.log("casi amigo");
+    let button = document.createElement("button");
+    //let inputButton = document.createElement("input");
+    let sectionButt = document.getElementsByClassName("comprobar");
+
+
+    button.classList.add("w90");
+    button.setAttribute("id","check");
+    button.setAttribute("onclick","location.reload()");
+    button.textContent = "Reiniciar";
+
+    /*inputButton.classList.add("w90");
+    inputButton.setAttribute("type", "text");
+    inputButton.setAttribute("id", "reiniciar");
+    inputButton.setAttribute("name", "reiniciar");*/
+
+
+
+    //inputButton.appendChild(button);
+    sectionButt[0].appendChild(button);
+    
 }
 
 
